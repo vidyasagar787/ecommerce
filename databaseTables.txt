@@ -1,0 +1,30 @@
+CREATE TABLE `categories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) unsigned DEFAULT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `parent_id` (`parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `categories_products` (
+  `category_id` int(10) unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
+  KEY `category_id` (`category_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `products` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `categories_products`
+  ADD CONSTRAINT `categories_products_ibfk_2`
+    FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `categories_products_ibfk_1`
+    FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
